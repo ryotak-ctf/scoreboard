@@ -1,4 +1,6 @@
 # How to Submit
+**Important:** Please debug your answer before submitting it. GitHub has a strict rate limit for creating the draft security advisory, and you may be rate limited if you submit answers too frequently.  
+
 In this CTF, you need to submit answers via [Privately reporting a security vulnerability](https://docs.github.com/en/code-security/security-advisories/guidance-on-reporting-and-writing-information-about-vulnerabilities/privately-reporting-a-security-vulnerability) feature of GitHub.  
 To submit an answer, please follow the steps below:  
 
