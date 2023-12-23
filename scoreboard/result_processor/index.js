@@ -25,11 +25,13 @@ const result = JSON.parse(fs.readFileSync("./result.json", "utf8"));
         let flag;
         if (contentResp.status === 404) {
             flag = true;
-        } else {
+        } else if (contentResp.status === 200) {
             const solvers = await contentResp.json();
             if (!solvers.includes(result.sender)) {
                 flag = true;
             }
+        } else {
+            throw new Error(`Failed to retrieve the solvers file: ${contentResp.status} ${contentResp.statusText} ${await contentResp.text()}`);
         }
 
         if (!flag) {
