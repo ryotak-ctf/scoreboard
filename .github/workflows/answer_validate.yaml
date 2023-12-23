@@ -1,0 +1,32 @@
+name: Validate answers
+
+on:
+  workflow_dispatch:
+  repository_dispatch:
+    types: [answer_submission]
+
+# make sure this is read-only since the user might be compromise this workflow
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+        with:
+          repository: 'ryotak-ctf/challenges'
+          path: 'challenges'
+      - env:
+          ENCRYPTED_CLIENT_PAYLOAD: ${{ github.event.client_payload.encryptedBody }}
+          ENCRYPTION_PASSWORD: ${{ secrets.ENCRYPTION_PASSWORD }}
+        run: node scoreboard/answer_validator/index.js
+        continue-on-error: true
+        id: validation
+      # I know this is spoofable if the user compromised this workflow, but I had no better ideas for now :(
+      - name: 'Upload result'
+        uses: actions/upload-artifact@c7d193f32edcb7bfad88892161225aeda64e9392
+        with:
+          name: result
+          path: result.json
